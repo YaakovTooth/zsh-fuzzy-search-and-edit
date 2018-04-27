@@ -51,6 +51,7 @@ function fuzzy-search-and-edit() {
     fi
 
     rm -r "$dir"
+    find /tmp -maxdepth 1 -name "fuzzy-search-and-edit.*" -user yaakov -type d -cmin +60 -exec rm -rf {} \;
 
     zle -I
 }
