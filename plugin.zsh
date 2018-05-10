@@ -7,7 +7,7 @@ if [ -n "$(uname | grep -i freebsd)" ]; then
     pattern='s/^([^:]+:[^:]+):\s*(.*)/\1:  \2/'
 
 elif [ -n "$(uname | grep -i darwin)" ]; then
-    grep='/usr/local/bin/ggrep'
+    grep=`which ggrep`
     if [[ ! -f $grep ]]; then
         echo "Install GNU grep: brew install grep"
         return 1
@@ -63,7 +63,7 @@ function fuzzy-search-and-edit() {
     fi
 
     rm -r "$dir"
-    find /tmp -maxdepth 1 -name "fuzzy-search-and-edit.*" -user yaakov -type d -mmin +30 -exec rm -rf {} \;
+    find /tmp -maxdepth 1 -name "fuzzy-search-and-edit.*" -user $USER -type d -mmin +30 -exec rm -rf {} \;
 
     zle -I
 }
