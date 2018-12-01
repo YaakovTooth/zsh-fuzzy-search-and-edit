@@ -24,7 +24,31 @@ function :fuzzy-search-and-edit:get-files() {
     local directory="$1"
     local fifo="$2"
     cd "$directory"
-    command $grep -r -nEHI '[[:alnum:]]' "." --exclude-dir=".git" \
+    command $grep --line-buffered -r -nEHI '[[:alnum:]]' "." --color=never --exclude-dir=".git" \
+        | cut -b3- \
+        | command sed -ru $pattern > "$fifo"
+}
+
+
+function :fuzzy-search-and-edit:get-files-custom() {
+    local directory="$1"
+    local fifo="$2"
+    cd "$directory"
+    command $grep --line-buffered -r -nEHI '[[:alnum:]]' "." --color=never --exclude-dir=".git" \
+        --include="*.php" \
+        --include="*.js"  \
+        --include="*.py"  \
+        --include="*.rb"  \
+        --include="*.liq" \
+        --include="*.xml" \
+        --include="*.htm" \
+        --include="*.css" \
+        --include="*.ini" \
+        --include="*.sql" \
+        --include="*.json" \
+        --include="*.txt" \
+        --include="*.conf" \
+        --include="*.html" \
         | cut -b3- \
         | command sed -ru $pattern > "$fifo"
 }
